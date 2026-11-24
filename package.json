@@ -1,0 +1,9 @@
+{
+  "name": "rans-fotocopy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website RANS Fotocopy — katalog ATK, kalkulator jasa, dan dashboard admin.",
+  "engines": {
+    "node": "20.x"
+  }
+}
