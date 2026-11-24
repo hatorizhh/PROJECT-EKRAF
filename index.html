@@ -739,7 +739,7 @@ tailwind.config = {
           <div id="dash-product-list" class="space-y-2 max-h-[520px] overflow-y-auto pr-1"></div>
         </div>
       </div>
-      <p class="text-[11px] text-slate-400 text-center pb-1">Data produk tersimpan di perangkat ini (localStorage) dan langsung memperbarui katalog pelanggan.</p>
+      <p class="text-[11px] text-slate-400 text-center pb-1">Data produk tersimpan di server (Vercel Blob) sehingga langsung berlaku untuk semua pengunjung.</p>
     </div>
   </div>
 </div>
@@ -752,8 +752,10 @@ tailwind.config = {
    RANS Fotocopy — Vanilla JS App (part 1)
    ========================================================= */
 const WA_NUMBER = '6281234567890'; // Ganti dengan nomor WhatsApp toko (format 62…)
+const CATALOG_API = '/api/products';
 const STORE = {
-  products: 'rans_fotocopy_products_v1',
+  // Cache lokal hanya untuk tampilan awal; sumber kebenaran ada di server.
+  productsCache: 'rans_fotocopy_products_cache_v2',
   cart: 'rans_fotocopy_cart_v2'
 };
 
@@ -789,7 +791,7 @@ const DEFAULT_PRODUCTS = [
 ];
 
 /* ---------------- state ---------------- */
-let products = loadProducts();
+let products = loadCachedProducts();
 let cart = loadCart();
 let activeCategory = 'all';
 let searchQuery = '';
@@ -827,10 +829,62 @@ function saveJSON(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); }
   catch (e) { toast('Penyimpanan penuh — data tidak tersimpan.', 'error'); }
 }
-function loadProducts() {
-  const saved = loadJSON(STORE.products, null);
-  if (!Array.isArray(saved) || !saved.length) return structuredClone(DEFAULT_PRODUCTS);
+function loadCachedProducts() {
+  const saved = loadJSON(STORE.productsCache, null);
+  if (!Array.isArray(saved)) return structuredClone(DEFAULT_PRODUCTS);
   return saved.filter((p) => p && p.name && Number.isFinite(Number(p.price)));
+}
+
+/** Ambil katalog terkini dari server (berlaku untuk semua pengunjung). */
+async function loadCatalog() {
+  try {
+    const res = await fetch(CATALOG_API, { headers: { Accept: 'application/json' }, cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!Array.isArray(data.products)) throw new Error('format katalog tidak dikenal');
+    products = data.products;
+    saveJSON(STORE.productsCache, products);
+    renderCatalog();
+    renderChips();
+    refreshCardActions();
+    if ($('#dashboard-overlay').classList.contains('flex')) renderDashboard();
+  } catch (err) {
+    console.warn('Katalog server tidak dapat dimuat', err);
+    if ($('#dashboard-overlay').classList.contains('flex')) {
+      toast('Katalog server tidak dapat dimuat. Menampilkan data tersimpan di perangkat ini.', 'error');
+    }
+  }
+}
+
+/** Kirim perubahan katalog ke server. Mengembalikan daftar produk baru atau null. */
+async function saveCatalog(payload) {
+  try {
+    const res = await fetch(CATALOG_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401) {
+      toast('Sesi admin berakhir. Silakan login ulang.', 'error');
+      return null;
+    }
+    if (!res.ok || !Array.isArray(data.products)) {
+      toast(data.message || 'Gagal menyimpan perubahan katalog.', 'error');
+      return null;
+    }
+    products = data.products;
+    saveJSON(STORE.productsCache, products);
+    renderCatalog();
+    renderChips();
+    refreshCardActions();
+    renderDashboard();
+    return products;
+  } catch (err) {
+    console.error('Gagal menyimpan katalog', err);
+    toast('Tidak dapat menghubungi server. Perubahan belum tersimpan.', 'error');
+    return null;
+  }
 }
 function loadCart() {
   const saved = loadJSON(STORE.cart, null);
@@ -1345,7 +1399,7 @@ function pickIcon(icon) {
   });
 }
 
-function submitProduct(e) {
+async function submitProduct(e) {
   e.preventDefault();
   const name = $('#p-name').value.trim();
   const price = Number($('#p-price').value);
@@ -1363,7 +1417,6 @@ function submitProduct(e) {
   err.classList.add('hidden');
 
   const product = {
-    id: 'atk-' + Date.now().toString(36),
     name,
     category: $('#p-category').value,
     price: Math.round(price),
@@ -1372,38 +1425,35 @@ function submitProduct(e) {
     icon: selectedIcon,
     desc: $('#p-desc').value.trim()
   };
-  products.unshift(product);
-  saveJSON(STORE.products, products);
 
-  renderCatalog();
-  renderChips();
-  renderDashboard();
+  const submitBtn = $('#add-product-form button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = true;
+  const saved = await saveCatalog({ action: 'create', product });
+  if (submitBtn) submitBtn.disabled = false;
+  if (!saved) {
+    err.textContent = 'Perubahan belum tersimpan di server. Periksa koneksi lalu coba lagi.';
+    err.classList.remove('hidden');
+    return;
+  }
+
   $('#add-product-form').reset();
   selectedIcon = 'notebook';
   renderIconPicker();
   toast(`"${product.name}" ditambahkan ke katalog`);
 }
 
-function deleteProduct(id) {
+async function deleteProduct(id) {
   const p = products.find((x) => x.id === id);
   if (!p) return;
   if (!confirm(`Hapus "${p.name}" dari katalog?`)) return;
-  products = products.filter((x) => x.id !== id);
-  saveJSON(STORE.products, products);
-  renderCatalog();
-  renderChips();
-  renderDashboard();
-  toast(`"${p.name}" dihapus dari katalog`, 'info');
+  const saved = await saveCatalog({ action: 'delete', id });
+  if (saved) toast(`"${p.name}" dihapus dari katalog`, 'info');
 }
 
-function resetProducts() {
+async function resetProducts() {
   if (!confirm('Kembalikan katalog ke daftar produk bawaan? Produk tambahan akan hilang.')) return;
-  products = structuredClone(DEFAULT_PRODUCTS);
-  saveJSON(STORE.products, products);
-  renderCatalog();
-  renderChips();
-  renderDashboard();
-  toast('Katalog dikembalikan ke produk bawaan');
+  const saved = await saveCatalog({ action: 'reset' });
+  if (saved) toast('Katalog dikembalikan ke produk bawaan');
 }
 
 /* ---------------- init ---------------- */
@@ -1415,6 +1465,7 @@ function init() {
   renderIconPicker();
   updateAdminLabels();
   loadSession();
+  loadCatalog();
   docEstimate();
   photoEstimate();
 
@@ -1445,7 +1496,6 @@ function init() {
   // Sinkronisasi antar-tab
   window.addEventListener('storage', (e) => {
     if (e.key === STORE.cart) { cart = loadCart(); renderCart(); refreshCardActions(); }
-    if (e.key === STORE.products) { products = loadProducts(); renderCatalog(); renderChips(); renderDashboard(); }
   });
 
   refreshIcons();

@@ -4,7 +4,7 @@ Website single-page untuk toko ATK, jasa fotocopy, dan studio cetak foto RANS Fo
 Katalog produk, kalkulator jasa, keranjang + checkout WhatsApp, serta dashboard admin.
 
 - `index.html` — seluruh halaman (HTML, Tailwind, dan JavaScript inline).
-- `api/` — Vercel Functions untuk login/logout/session admin. Kredensial tidak ada di kode klien.
+- `api/` — Vercel Functions: login/logout/session admin dan API katalog produk. Kredensial tidak ada di kode klien.
 
 ## Deploy ke Vercel
 
@@ -32,12 +32,21 @@ Jangan menaruh nilai variabel di file mana pun di repo. `.env*` sudah diabaikan 
 - `vercel.json` mengirim CSP, HSTS, `X-Frame-Options: DENY`, `nosniff`, Referrer-Policy, Permissions-Policy.
 - Respons API `Cache-Control: no-store`.
 
-## Catatan penting
+## Penyimpanan katalog produk
 
-Dashboard admin mengubah katalog yang tersimpan di `localStorage` **perangkat pengunjung**,
-bukan di server. Jadi perubahan produk hanya terlihat di browser tempat admin mengeditnya.
-Agar katalog berlaku untuk semua pengunjung, produk perlu disimpan di database
-(mis. Vercel Postgres/KV atau Upstash) — belum termasuk dalam versi ini.
+Katalog disimpan di **Vercel Blob** sebagai `catalog/products.json`, bukan di browser.
+Dashboard admin mengubah data di server lewat `POST /api/products`, jadi perubahan
+langsung berlaku untuk semua pengunjung.
+
+1. Buka **Storage** di dashboard Vercel, buat **Blob** store dengan akses *public*,
+lalu hubungkan ke project ini. Vercel menambahkan `BLOB_READ_WRITE_TOKEN` secara
+otomatis ke Production, Preview, dan Development.
+2. Redeploy. Tanpa token tersebut `GET /api/products` menjawab `503`, dan situs
+menampilkan katalog dari cache perangkat pengunjung.
+
+`GET /api/products` bersifat publik. Perubahan hanya diterima lewat `POST` dengan
+sesi admin valid (cookie HttpOnly) dan wajib same-origin. Bila blob belum pernah
+ditulis, katalog bawaan (18 produk) dipakai tanpa menulis apa pun.
 
 Sebelum dipakai produksi, ganti `WA_NUMBER` di bagian atas `<script>` pada `index.html`
 dengan nomor WhatsApp toko (format `62…`).
