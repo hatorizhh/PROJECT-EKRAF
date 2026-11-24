@@ -2,8 +2,8 @@
   "name": "rans-fotocopy",
   "version": "1.0.0",
   "private": true,
-  "description": "Website RANS Fotocopy — katalog ATK, kalkulator jasa, dan dashboard admin.",
+  "description": "Website RANS Fotocopy \u2014 katalog ATK, kalkulator jasa, dan dashboard admin.",
   "engines": {
-    "node": "20.x"
+    "node": "26.x"
   }
 }
