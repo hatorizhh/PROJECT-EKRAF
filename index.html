@@ -1056,10 +1056,12 @@ function renderCart() {
 
 function openCart() {
   $('#cart-overlay').classList.add('open');
+  $('#cart-panel').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function closeCart() {
   $('#cart-overlay').classList.remove('open');
+  $('#cart-panel').classList.remove('open');
   document.body.style.overflow = '';
 }
 
