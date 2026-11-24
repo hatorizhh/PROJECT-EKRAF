@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RANS Fotocopy — ATK, Fotocopy & Studio Cetak Foto</title>
+<meta name="description" content="Toko ATK, jasa fotocopy/print dokumen, dan studio cetak foto RANS Fotocopy. Pesan mudah lewat WhatsApp.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        heading: ['Plus Jakarta Sans', 'sans-serif']
+      },
+      colors: {
+        blibli: {
+          DEFAULT: '#0095DA',
+          hover: '#007BB5',
+          light: '#E5F6FD',
+          container: '#D6F0FF',
+          on: '#001E2E'
+        },
+        surface: {
+          DEFAULT: '#F7F9FC',
+          low: '#EFF4F9',
+          container: '#E6EEF6',
+          high: '#DCE6F1',
+          card: '#FFFFFF'
+        },
+        promo: {
+          orange: '#FF6B00',
+          bg: '#FFF1E5',
+          text: '#9A3412'
+        },
+        wa: {
+          DEFAULT: '#25D366',
+          hover: '#1EBE5D'
+        }
+      },
+      boxShadow: {
+        m3: '0 1px 2px rgba(11,45,66,.06), 0 8px 24px -12px rgba(11,45,66,.18)',
+        lift: '0 18px 40px -20px rgba(0,66,102,.35)'
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { -webkit-tap-highlight-color: transparent; }
+  body { background: #F7F9FC; color: #191C20; }
+  .font-heading { font-feature-settings: "ss01"; }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .m3ease { transition: all .25s cubic-bezier(.2,0,0,1); }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: #EFF4F9; }
+  ::-webkit-scrollbar-thumb { background: #C3D0DF; border-radius: 999px; border: 2px solid #EFF4F9; }
+  ::-webkit-scrollbar-thumb:hover { background: #9FB3C8; }
+
+  /* Material 3 segmented buttons */
+  .seg { display: inline-flex; gap: .25rem; padding: .25rem; border-radius: 999px; background: #EFF4F9; border: 1px solid #E6EEF6; }
+  .seg-btn { border-radius: 999px; padding: .5rem .9rem; font-size: .78rem; font-weight: 600; color: #475569; transition: all .22s cubic-bezier(.2,0,0,1); white-space: nowrap; }
+  .seg-btn:hover { background: rgba(255,255,255,.75); }
+  .seg-btn[aria-pressed="true"] { background: #0095DA; color: #fff; box-shadow: 0 6px 14px -8px rgba(0,149,218,.9); }
+  .seg-btn.warm[aria-pressed="true"] { background: #FF6B00; box-shadow: 0 6px 14px -8px rgba(255,107,0,.9); }
+  .seg-grid { display: grid; gap: .35rem; padding: .3rem; border-radius: 22px; background: #EFF4F9; border: 1px solid #E6EEF6; grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .seg-grid .seg-btn { border-radius: 16px; }
+  @media (min-width: 640px) { .seg-grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); } .seg-grid.four { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+
+  /* Number input spinner removal */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"] { -moz-appearance: textfield; }
+
+  /* Drawer / overlay */
+  #cart-overlay, #admin-overlay { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+  #cart-overlay.open, #admin-overlay.open { opacity: 1; pointer-events: auto; }
+  #cart-panel { transform: translateX(100%); transition: transform .38s cubic-bezier(.2,0,0,1); }
+  #cart-panel.open { transform: translateX(0); }
+  #admin-card { transform: translateY(18px) scale(.98); opacity: 0; transition: all .3s cubic-bezier(.2,0,0,1); }
+  #admin-overlay.open #admin-card { transform: translateY(0) scale(1); opacity: 1; }
+
+  .tone { background-image: radial-gradient(120% 120% at 15% 0%, #FFFFFF 0%, transparent 60%); }
+  .card-enter { animation: cardIn .45s cubic-bezier(.2,0,0,1) both; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: none; } }
+  .toast-enter { animation: toastIn .3s cubic-bezier(.2,0,0,1) both; }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body class="antialiased font-sans selection:bg-blibli-container selection:text-blibli-on">
+
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-40">
+  <div class="bg-blibli text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-8 flex items-center justify-between gap-3 text-[11px] sm:text-xs">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="inline-flex items-center gap-1.5 bg-white/20 px-2 py-0.5 rounded-full font-semibold shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Buka Hari Ini
+        </span>
+        <span class="truncate opacity-95 hidden xs:inline sm:inline">Senin–Sabtu 07.00–21.00 • Melayani pelajar, mahasiswa &amp; sekolah</span>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="#jasa" class="hidden md:inline hover:underline">Cetak Tugas &amp; Foto</a>
+        <a href="#paket-sekolah" class="hidden lg:inline hover:underline">Pengadaan Sekolah</a>
+        <button onclick="openAdmin()" class="inline-flex items-center gap-1.5 bg-white/20 hover:bg-white/30 px-2.5 py-1 rounded-full font-bold m3ease">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span id="admin-label">Admin</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white/95 backdrop-blur-md border-b border-surface-container">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex items-center gap-3 sm:gap-5">
+        <a href="#" class="flex items-center gap-2.5 shrink-0 group">
+          <span class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-blibli text-white grid place-items-center shadow-sm group-hover:bg-blibli-hover m3ease">
+            <i data-lucide="printer" class="w-5 h-5"></i>
+          </span>
+          <span class="leading-none">
+            <span class="flex items-baseline gap-1">
+              <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">RANS</span>
+              <span class="font-heading font-bold text-lg sm:text-xl tracking-tight text-blibli">Fotocopy</span>
+            </span>
+            <span class="hidden sm:block text-[11px] text-slate-500 font-medium mt-1">ATK • Fotocopy • Studio Foto</span>
+          </span>
+        </a>
+
+        <div class="flex-1 max-w-2xl">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <input id="search-input" type="search" autocomplete="off" placeholder="Cari kertas HVS, pulpen, paket hadiah siswa…"
+              class="w-full bg-surface-low hover:bg-surface-container/70 focus:bg-white text-slate-800 placeholder-slate-400 text-xs sm:text-sm pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 rounded-full border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none m3ease">
+            <button id="clear-search" onclick="clearSearch()" aria-label="Hapus pencarian"
+              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-high text-slate-600 hover:text-slate-900 grid place-items-center">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="openCart()" aria-label="Buka keranjang"
+            class="relative inline-flex items-center gap-2 bg-blibli-container hover:bg-[#C2E8FF] text-blibli-on px-3 sm:px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold m3ease active:scale-95">
+            <i data-lucide="shopping-bag" class="w-4 h-4 sm:w-5 sm:h-5 text-blibli"></i>
+            <span class="hidden md:inline">Keranjang</span>
+            <span id="nav-cart-badge" class="tnum inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full text-[11px] font-extrabold text-white bg-promo-orange">0</span>
+          </button>
+          <button onclick="chatStore()" class="hidden lg:inline-flex items-center gap-2 bg-surface-low hover:bg-surface-container text-slate-700 px-4 py-2.5 rounded-full text-sm font-semibold m3ease">
+            <i data-lucide="message-circle" class="w-4 h-4 text-wa"></i> Tanya Toko
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= PROMO CAROUSEL ================= -->
+<section class="pt-5 sm:pt-7">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div id="promo-track" class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory no-scrollbar scroll-smooth">
+      <div class="snap-start shrink-0 w-[88%] sm:w-[64%] lg:w-[49%] min-h-[212px] rounded-[28px] p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between text-white bg-gradient-to-br from-[#0095DA] via-[#0084CB] to-[#005B96]">
+        <span class="absolute -right-10 -bottom-12 w-48 h-48 rounded-full bg-white/10"></span>
+        <span class="absolute right-6 top-6 w-14 h-14 rounded-3xl bg-white/15 hidden sm:grid place-items-center"><i data-lucide="gift" class="w-7 h-7"></i></span>
+        <div class="relative max-w-sm">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-[11px] font-bold tracking-wide">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> SPESIAL SEKOLAH &amp; SISWA
+          </span>
+          <h2 class="font-heading text-xl sm:text-2xl font-extrabold leading-snug mt-3">Paket Hadiah Lomba &amp; ATK Lengkap</h2>
+          <p class="text-xs sm:text-sm text-sky-100 mt-1.5 leading-relaxed">Pilih banyak produk sekaligus, rangkuman pesanan langsung siap dikirim ke WhatsApp.</p>
+        </div>
+        <a href="#katalog" class="relative mt-5 w-fit inline-flex items-center gap-2 bg-white text-blibli font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full hover:bg-sky-50 m3ease active:scale-95">
+          Belanja ATK <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="snap-start shrink-0 w-[88%] sm:w-[64%] lg:w-[49%] min-h-[212px] rounded-[28px] p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between text-white bg-gradient-to-br from-[#0D9488] to-[#0F766E]">
+        <span class="absolute -right-8 -top-10 w-44 h-44 rounded-full bg-white/10"></span>
+        <span class="absolute right-6 top-6 w-14 h-14 rounded-3xl bg-white/15 hidden sm:grid place-items-center"><i data-lucide="file-check-2" class="w-7 h-7"></i></span>
+        <div class="relative max-w-sm">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-[11px] font-bold tracking-wide">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i> HITUNG ESTIMASI OTOMATIS
+          </span>
+          <h2 class="font-heading text-xl sm:text-2xl font-extrabold leading-snug mt-3">Cetak Tugas, Skripsi &amp; Fotocopy Kilat</h2>
+          <p class="text-xs sm:text-sm text-teal-100 mt-1.5 leading-relaxed">Atur hitam putih/warna, ukuran A4/F4, hingga jilid spiral langsung dari HP.</p>
+        </div>
+        <a href="#jasa" class="relative mt-5 w-fit inline-flex items-center gap-2 bg-white text-teal-800 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full hover:bg-teal-50 m3ease active:scale-95">
+          Hitung Biaya Cetak <i data-lucide="calculator" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="snap-start shrink-0 w-[88%] sm:w-[64%] lg:w-[49%] min-h-[212px] rounded-[28px] p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between text-white bg-gradient-to-br from-[#FF8A3D] to-[#EA580C]">
+        <span class="absolute -right-8 -bottom-10 w-44 h-44 rounded-full bg-white/10"></span>
+        <span class="absolute right-6 top-6 w-14 h-14 rounded-3xl bg-white/15 hidden sm:grid place-items-center"><i data-lucide="image" class="w-7 h-7"></i></span>
+        <div class="relative max-w-sm">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-[11px] font-bold tracking-wide">
+            <i data-lucide="camera" class="w-3.5 h-3.5"></i> KERTAS GLOSSY &amp; DOFF
+          </span>
+          <h2 class="font-heading text-xl sm:text-2xl font-extrabold leading-snug mt-3">Pas Foto Sekolah, Ijazah &amp; Cetak 3R/4R</h2>
+          <p class="text-xs sm:text-sm text-orange-100 mt-1.5 leading-relaxed">Hasil tajam dan awet mulai Rp 1.500/lembar. Bisa digabung dengan belanja ATK.</p>
+        </div>
+        <a href="#jasa" class="relative mt-5 w-fit inline-flex items-center gap-2 bg-white text-orange-700 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full hover:bg-orange-50 m3ease active:scale-95">
+          Pesan Cetak Foto <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUICK CATEGORY TILES ================= -->
+<section class="py-5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2.5 sm:gap-4">
+      <button onclick="quickCategory('kertas')" class="group flex flex-col items-center gap-2 text-center">
+        <span class="w-16 h-16 sm:w-[74px] sm:h-[74px] rounded-[24px] bg-[#D6F0FF] text-blibli grid place-items-center group-hover:scale-[1.04] group-active:scale-95 m3ease">
+          <i data-lucide="notebook" class="w-7 h-7"></i>
+        </span>
+        <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight">Kertas &amp; Buku</span>
+      </button>
+      <button onclick="quickCategory('pulpen')" class="group flex flex-col items-center gap-2 text-center">
+        <span class="w-16 h-16 sm:w-[74px] sm:h-[74px] rounded-[24px] bg-[#E6F7EC] text-emerald-700 grid place-items-center group-hover:scale-[1.04] group-active:scale-95 m3ease">
+          <i data-lucide="pen-line" class="w-7 h-7"></i>
+        </span>
+        <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight">Pulpen &amp; Pensil</span>
+      </button>
+      <button onclick="quickCategory('perlengkapan')" class="group flex flex-col items-center gap-2 text-center">
+        <span class="w-16 h-16 sm:w-[74px] sm:h-[74px] rounded-[24px] bg-[#FFF1E5] text-promo-text grid place-items-center group-hover:scale-[1.04] group-active:scale-95 m3ease">
+          <i data-lucide="ruler" class="w-7 h-7"></i>
+        </span>
+        <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight">Perlengkapan</span>
+      </button>
+      <button onclick="quickCategory('hadiah')" class="group flex flex-col items-center gap-2 text-center">
+        <span class="w-16 h-16 sm:w-[74px] sm:h-[74px] rounded-[24px] bg-[#F3E8FF] text-purple-700 grid place-items-center group-hover:scale-[1.04] group-active:scale-95 m3ease">
+          <i data-lucide="gift" class="w-7 h-7"></i>
+        </span>
+        <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight">Paket Hadiah</span>
+      </button>
+      <a href="#jasa" class="group flex flex-col items-center gap-2 text-center">
+        <span class="w-16 h-16 sm:w-[74px] sm:h-[74px] rounded-[24px] bg-[#E0F2FE] text-sky-700 grid place-items-center group-hover:scale-[1.04] group-active:scale-95 m3ease">
+          <i data-lucide="printer" class="w-7 h-7"></i>
+        </span>
+        <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight">Fotocopy &amp; Print</span>
+      </a>
+      <a href="#jasa" class="group flex flex-col items-center gap-2 text-center">
+        <span class="w-16 h-16 sm:w-[74px] sm:h-[74px] rounded-[24px] bg-[#FCE7F3] text-pink-700 grid place-items-center group-hover:scale-[1.04] group-active:scale-95 m3ease">
+          <i data-lucide="image" class="w-7 h-7"></i>
+        </span>
+        <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight">Cetak Foto</span>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- ================= KATALOG ATK ================= -->
+<section id="katalog" class="pb-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+      <div>
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-blibli uppercase tracking-wider">
+          <i data-lucide="store" class="w-3.5 h-3.5"></i> Katalog Toko
+        </span>
+        <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">Belanja ATK Sekolah &amp; Kantor</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Harga eceran ramah pelajar — butuh banyak? Gabungkan dengan paket grosir.</p>
+      </div>
+      <span id="catalog-count" class="tnum text-[11px] sm:text-xs font-semibold text-slate-500 bg-white px-3 py-1.5 rounded-full ring-1 ring-surface-container">0 produk</span>
+    </div>
+
+    <div id="category-chips" class="flex gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+      <!-- chips injected -->
+    </div>
+
+    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-4"></div>
+
+    <div id="empty-state" class="hidden bg-white rounded-3xl p-10 text-center ring-1 ring-surface-container mt-4">
+      <span class="w-14 h-14 rounded-2xl bg-surface-low text-slate-400 grid place-items-center mx-auto"><i data-lucide="search-x" class="w-7 h-7"></i></span>
+      <h3 class="font-heading font-bold text-slate-800 mt-3">Produk tidak ditemukan</h3>
+      <p class="text-sm text-slate-500 mt-1">Coba kata kunci lain atau pilih kategori "Semua".</p>
+      <button onclick="resetFilters()" class="mt-4 inline-flex items-center gap-2 bg-blibli-container text-blibli-on px-4 py-2 rounded-full text-xs font-bold">Tampilkan semua produk</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JASA: FOTOCopy & CETAK FOTO ================= -->
+<section id="jasa" class="py-8 scroll-mt-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+      <div>
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-teal-700 uppercase tracking-wider">
+          <i data-lucide="calculator" class="w-3.5 h-3.5"></i> Kalkulator Jasa
+        </span>
+        <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">Hitung Estimasi Cetak &amp; Fotocopy</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Atur pilihan di bawah, estimasi biaya muncul otomatis sebelum masuk keranjang.</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-4 sm:gap-5">
+      <!-- Dokument -->
+      <div class="bg-white rounded-[28px] p-5 sm:p-6 ring-1 ring-surface-container shadow-m3">
+        <div class="flex items-start gap-3">
+          <span class="w-11 h-11 rounded-2xl bg-blibli-container text-blibli grid place-items-center shrink-0"><i data-lucide="file-text" class="w-5 h-5"></i></span>
+          <div>
+            <h3 class="font-heading font-extrabold text-slate-900 text-base sm:text-lg leading-tight">Fotocopy &amp; Print Dokumen</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Tugas, makalah, skripsi, soal ujian &amp; berkas sekolah.</p>
+          </div>
+        </div>
+
+        <div class="mt-5 space-y-4">
+          <div>
+            <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Jenis Cetak</label>
+            <div class="seg-grid mt-2" data-seg="docType">
+              <button class="seg-btn" data-value="bw" aria-pressed="true">Hitam Putih · Rp 300</button>
+              <button class="seg-btn" data-value="color" aria-pressed="false">Warna · Rp 1.500</button>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Ukuran Kertas</label>
+              <div class="seg mt-2 w-full" data-seg="docSize">
+                <button class="seg-btn flex-1" data-value="A4" aria-pressed="true">A4</button>
+                <button class="seg-btn flex-1" data-value="F4" aria-pressed="false">F4</button>
+              </div>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Jilid</label>
+              <select id="doc-binding" class="mt-2 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-700">
+                <option value="0">Tanpa Jilid · Rp 0</option>
+                <option value="5000">Lakban / Mika · +Rp 5.000</option>
+                <option value="15000">Spiral · +Rp 15.000</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="doc-pages" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Jumlah Halaman</label>
+              <input id="doc-pages" type="number" min="1" value="10" class="tnum mt-2 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm font-bold text-slate-800">
+            </div>
+            <div>
+              <label for="doc-copies" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Jumlah Rangkap</label>
+              <input id="doc-copies" type="number" min="1" value="1" class="tnum mt-2 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm font-bold text-slate-800">
+            </div>
+          </div>
+
+          <div class="rounded-3xl bg-blibli-container/60 ring-1 ring-blibli/15 p-4 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-blibli-on/60">Estimasi Biaya</p>
+              <p id="doc-total" class="font-heading tnum text-xl sm:text-2xl font-extrabold text-blibli-on mt-0.5">Rp 3.000</p>
+              <p id="doc-detail" class="text-[11px] text-blibli-on/70 mt-0.5">10 hlm × 1 rangkap</p>
+            </div>
+            <button onclick="addDocToCart()" class="inline-flex items-center gap-1.5 bg-blibli hover:bg-blibli-hover text-white px-4 py-2.5 rounded-full text-xs font-bold m3ease active:scale-95 shrink-0">
+              <i data-lucide="plus" class="w-4 h-4"></i> Keranjang
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto -->
+      <div class="bg-white rounded-[28px] p-5 sm:p-6 ring-1 ring-surface-container shadow-m3">
+        <div class="flex items-start gap-3">
+          <span class="w-11 h-11 rounded-2xl bg-promo-bg text-promo-text grid place-items-center shrink-0"><i data-lucide="image" class="w-5 h-5"></i></span>
+          <div>
+            <h3 class="font-heading font-extrabold text-slate-900 text-base sm:text-lg leading-tight">Cetak Foto &amp; Pas Foto</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Pas foto sekolah, ijazah, kenangan &amp; dekorasi.</p>
+          </div>
+        </div>
+
+        <div class="mt-5 space-y-4">
+          <div>
+            <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Ukuran Cetak</label>
+            <div class="seg-grid four mt-2" data-seg="photoSize">
+              <button class="seg-btn warm" data-value="pasphoto" aria-pressed="true">Pas Foto<br><span class="tnum font-bold">Rp 1.500</span></button>
+              <button class="seg-btn warm" data-value="3r" aria-pressed="false">3R<br><span class="tnum font-bold">Rp 3.000</span></button>
+              <button class="seg-btn warm" data-value="4r" aria-pressed="false">4R<br><span class="tnum font-bold">Rp 4.000</span></button>
+              <button class="seg-btn warm" data-value="a4" aria-pressed="false">A4<br><span class="tnum font-bold">Rp 10.000</span></button>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Jenis Kertas</label>
+              <div class="seg mt-2 w-full" data-seg="photoPaper">
+                <button class="seg-btn flex-1" data-value="glossy" aria-pressed="true">Glossy</button>
+                <button class="seg-btn flex-1" data-value="doff" aria-pressed="false">Doff</button>
+              </div>
+            </div>
+            <div>
+              <label for="photo-qty" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Jumlah Lembar</label>
+              <input id="photo-qty" type="number" min="1" value="1" class="tnum mt-2 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm font-bold text-slate-800">
+            </div>
+          </div>
+
+          <div class="rounded-3xl bg-promo-bg/80 ring-1 ring-promo-orange/15 p-4 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-promo-text/60">Estimasi Biaya</p>
+              <p id="photo-total" class="font-heading tnum text-xl sm:text-2xl font-extrabold text-promo-text mt-0.5">Rp 1.500</p>
+              <p id="photo-detail" class="text-[11px] text-promo-text/70 mt-0.5">Pas Foto · Glossy · 1 lembar</p>
+            </div>
+            <button onclick="addPhotoToCart()" class="inline-flex items-center gap-1.5 bg-promo-orange hover:bg-[#EA5F00] text-white px-4 py-2.5 rounded-full text-xs font-bold m3ease active:scale-95 shrink-0">
+              <i data-lucide="plus" class="w-4 h-4"></i> Keranjang
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAKET SEKOLAH ================= -->
+<section id="paket-sekolah" class="pb-6 scroll-mt-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-[28px] bg-white ring-1 ring-surface-container p-5 sm:p-7 grid lg:grid-cols-[1.4fr_1fr] gap-6 items-center shadow-m3">
+      <div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E6F7EC] text-emerald-800 text-[11px] font-bold tracking-wide">
+          <i data-lucide="school" class="w-3.5 h-3.5"></i> PENGADAAN SEKOLAH &amp; PANITIA LOMBA
+        </span>
+        <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-slate-900 mt-3 leading-snug">Butuh 50–500 paket hadiah siswa? Kami siapkan satu kali pesan.</h2>
+        <p class="text-sm text-slate-600 mt-2 leading-relaxed">Paket hadiah juara, perlengkapan ujian, sampai souvenir lomba bisa dikustom isi dan labelnya. Tambahkan ke keranjang, lalu kirim rinciannya lewat WhatsApp — tim kami balas dengan ketersediaan stok dan estimasi kirim.</p>
+        <div class="flex flex-wrap gap-2 mt-4 text-[11px] font-semibold text-slate-600">
+          <span class="inline-flex items-center gap-1.5 bg-surface-low px-3 py-1.5 rounded-full"><i data-lucide="package-check" class="w-3.5 h-3.5 text-emerald-600"></i> Bisa custom isi</span>
+          <span class="inline-flex items-center gap-1.5 bg-surface-low px-3 py-1.5 rounded-full"><i data-lucide="truck" class="w-3.5 h-3.5 text-blibli"></i> Kirim ke sekolah</span>
+          <span class="inline-flex items-center gap-1.5 bg-surface-low px-3 py-1.5 rounded-full"><i data-lucide="receipt-text" class="w-3.5 h-3.5 text-promo-orange"></i> Nota resmi</span>
+        </div>
+      </div>
+      <div class="rounded-3xl bg-blibli-container/60 p-5 ring-1 ring-blibli/15">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-blibli-on/60">Mulai dari</p>
+        <p class="font-heading tnum text-3xl font-extrabold text-blibli-on mt-1">Rp 25.000<span class="text-sm font-semibold text-blibli-on/60"> /paket</span></p>
+        <p class="text-xs text-blibli-on/70 mt-1">Isi: buku, alat tulis, tas kecil &amp; label nama.</p>
+        <button onclick="quickCategory('hadiah')" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-white text-blibli-on hover:bg-white/80 px-4 py-3 rounded-full text-xs font-bold m3ease active:scale-95">
+          <i data-lucide="gift" class="w-4 h-4 text-blibli"></i> Lihat Paket Hadiah
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-white border-t border-surface-container mt-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-10 h-10 rounded-2xl bg-blibli text-white grid place-items-center"><i data-lucide="printer" class="w-5 h-5"></i></span>
+          <div class="leading-none">
+            <p class="font-heading font-extrabold text-lg text-slate-900">RANS <span class="text-blibli">Fotocopy</span></p>
+            <p class="text-[11px] text-slate-500 mt-1">ATK • Fotocopy • Studio Foto</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 mt-4 max-w-sm leading-relaxed">Melayani kebutuhan alat tulis, fotocopy dokumen, dan cetak foto untuk pelajar, mahasiswa, guru, serta panitia lomba di sekitar sekolah.</p>
+        <div class="flex items-center gap-4 mt-4 text-xs text-slate-600">
+          <span class="inline-flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-blibli"></i> Senin–Sabtu 07.00–21.00</span>
+          <span class="inline-flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-blibli"></i> Depan Sekolah</span>
+        </div>
+      </div>
+      <div>
+        <p class="font-heading font-bold text-sm text-slate-900">Navigasi</p>
+        <ul class="mt-3 space-y-2 text-sm text-slate-600">
+          <li><a href="#katalog" class="hover:text-blibli">Katalog ATK</a></li>
+          <li><a href="#jasa" class="hover:text-blibli">Fotocopy &amp; Print</a></li>
+          <li><a href="#jasa" class="hover:text-blibli">Cetak Foto</a></li>
+          <li><a href="#paket-sekolah" class="hover:text-blibli">Pengadaan Sekolah</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-heading font-bold text-sm text-slate-900">Pemesanan</p>
+        <p class="text-sm text-slate-600 mt-3 leading-relaxed">Semua pesanan dikonfirmasi lewat WhatsApp. File cetak bisa dikirim saat chat.</p>
+        <button onclick="chatStore()" class="mt-3 inline-flex items-center gap-2 bg-wa hover:bg-wa-hover text-white px-4 py-2.5 rounded-full text-xs font-bold m3ease active:scale-95">
+          <i data-lucide="message-circle" class="w-4 h-4"></i> Hubungi Toko
+        </button>
+        <button onclick="openAdmin()" class="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 hover:text-blibli">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Admin <span id="footer-admin-label" class="font-normal">— login pengelola</span>
+        </button>
+      </div>
+    </div>
+    <div class="border-t border-surface-container mt-8 pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
+      <p>© 2026 RANS Fotocopy. Semua harga dalam Rupiah.</p>
+      <p>Dibuat untuk pelajar, mahasiswa &amp; sekolah.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= FLOATING CART BAR ================= -->
+<div id="floating-cart" class="fixed bottom-3 left-3 right-3 z-30 hidden pointer-events-none">
+  <div class="pointer-events-auto max-w-2xl mx-auto bg-slate-900/95 backdrop-blur-md text-white rounded-full p-1.5 pl-4 flex items-center justify-between gap-3 shadow-lift">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <span class="relative grid place-items-center w-8 h-8 rounded-full bg-white/10 shrink-0">
+        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+        <span id="float-count" class="tnum absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-promo-orange text-[10px] font-extrabold grid place-items-center">0</span>
+      </span>
+      <span class="leading-tight min-w-0">
+        <span class="block text-[10px] text-slate-300">Total keranjang</span>
+        <span id="float-total" class="block tnum font-heading font-extrabold text-sm">Rp 0</span>
+      </span>
+    </div>
+    <button onclick="openCart()" class="inline-flex items-center gap-1.5 bg-wa hover:bg-wa-hover text-white px-4 py-2.5 rounded-full text-xs font-bold m3ease active:scale-95 shrink-0">
+      Lihat <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </button>
+  </div>
+</div>
+<!-- ================= CART SLIDE-OVER ================= -->
+<div id="cart-overlay" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm" onclick="if(event.target===this) closeCart()">
+  <aside id="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title"
+    class="absolute top-0 right-0 h-full w-full sm:max-w-md bg-surface flex flex-col shadow-2xl">
+    <div class="bg-white px-5 pt-5 pb-4 border-b border-surface-container">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-10 h-10 rounded-2xl bg-blibli-container text-blibli grid place-items-center"><i data-lucide="shopping-bag" class="w-5 h-5"></i></span>
+          <div>
+            <h2 id="cart-title" class="font-heading font-extrabold text-slate-900 leading-tight">Keranjang</h2>
+            <p id="cart-subtitle" class="text-[11px] text-slate-500">Belum ada item</p>
+          </div>
+        </div>
+        <button onclick="closeCart()" aria-label="Tutup keranjang" class="w-9 h-9 rounded-full bg-surface-low hover:bg-surface-container text-slate-600 grid place-items-center m3ease">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+      <div id="cart-items" class="space-y-2.5"></div>
+
+      <div id="cart-empty" class="py-10 text-center">
+        <span class="w-16 h-16 rounded-3xl bg-blibli-container text-blibli grid place-items-center mx-auto"><i data-lucide="shopping-basket" class="w-7 h-7"></i></span>
+        <p class="font-heading font-bold text-slate-800 mt-3">Keranjang masih kosong</p>
+        <p class="text-xs text-slate-500 mt-1 max-w-[240px] mx-auto">Tambahkan ATK atau hitung jasa cetak terlebih dahulu, lalu kirim pesanan lewat WhatsApp.</p>
+        <button onclick="closeCart()" class="mt-4 inline-flex items-center gap-2 bg-blibli-container text-blibli-on px-4 py-2.5 rounded-full text-xs font-bold">
+          <i data-lucide="store" class="w-3.5 h-3.5"></i> Mulai belanja
+        </button>
+      </div>
+
+      <div id="cart-form-wrap" class="pt-2">
+        <div class="rounded-3xl bg-white ring-1 ring-surface-container p-4">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-8 h-8 rounded-xl bg-surface-low text-blibli grid place-items-center"><i data-lucide="user-round" class="w-4 h-4"></i></span>
+            <div>
+              <h3 class="font-heading font-bold text-sm text-slate-900 leading-tight">Data Pemesan</h3>
+              <p class="text-[11px] text-slate-500">Dipakai untuk konfirmasi pesanan.</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <label for="buyer-name" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Nama Pemesan / Sekolah</label>
+              <input id="buyer-name" type="text" placeholder="Contoh: Budi / SMPN 2 / Panitia Lomba" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400">
+            </div>
+            <div>
+              <label for="buyer-category" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Kategori Pemesan</label>
+              <select id="buyer-category" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800">
+                <option>Pelajar SD</option>
+                <option>Pelajar SMP</option>
+                <option>Pelajar SMA</option>
+                <option selected>Mahasiswa</option>
+                <option>Guru / Sekolah</option>
+                <option>Panitia Lomba</option>
+                <option>Umum</option>
+              </select>
+            </div>
+            <div>
+              <label for="buyer-method" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Metode Pengambilan</label>
+              <select id="buyer-method" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800">
+                <option selected>Ambil di Toko</option>
+                <option>Dikirim / COD Sekitar</option>
+                <option>Ambil Nanti (Pesan Dulu)</option>
+                <option>Kirim ke Sekolah (Grosir)</option>
+              </select>
+            </div>
+            <div>
+              <label for="buyer-note" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Catatan (opsional)</label>
+              <textarea id="buyer-note" rows="2" placeholder="Contoh: fotocopy bolak-balik, file dikirim di WA" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 resize-none"></textarea>
+            </div>
+          </div>
+          <p class="flex items-start gap-1.5 text-[11px] text-slate-500 mt-3 leading-snug">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-blibli shrink-0 mt-px"></i>
+            Harga masih estimasi. Admin akan mengonfirmasi ketersediaan stok &amp; total akhir di WhatsApp.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-t border-surface-container px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-slate-500">Total estimasi</span>
+        <span id="cart-total" class="font-heading tnum font-extrabold text-lg text-slate-900">Rp 0</span>
+      </div>
+      <button id="checkout-btn" onclick="checkoutWhatsApp()" class="mt-3 w-full inline-flex items-center justify-center gap-2 bg-wa hover:bg-wa-hover text-white py-3.5 rounded-full text-sm font-bold m3ease active:scale-[.98]">
+        <i data-lucide="message-circle" class="w-4.5 h-4.5"></i> Pesan Semua via WhatsApp
+      </button>
+      <button onclick="closeCart()" class="mt-2 w-full text-[11px] font-semibold text-slate-500 py-1.5 hover:text-slate-800">Lanjut belanja</button>
+    </div>
+  </aside>
+</div>
+
+<!-- ================= ADMIN LOGIN MODAL ================= -->
+<div id="admin-overlay" class="fixed inset-0 z-50 bg-slate-900/45 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this) closeAdmin()">
+  <div id="admin-card" class="w-full max-w-md max-h-[92vh] overflow-y-auto bg-surface rounded-[28px] shadow-2xl">
+    <!-- login view -->
+    <div id="login-view" class="p-6">
+      <div class="flex items-start justify-between">
+        <span class="w-12 h-12 rounded-2xl bg-blibli text-white grid place-items-center"><i data-lucide="shield-check" class="w-6 h-6"></i></span>
+        <button onclick="closeAdmin()" aria-label="Tutup" class="w-9 h-9 rounded-full bg-white text-slate-600 grid place-items-center hover:bg-surface-low m3ease"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <h2 class="font-heading text-xl font-extrabold text-slate-900 mt-4">Masuk Dashboard Admin</h2>
+      <p class="text-sm text-slate-500 mt-1">Kelola katalog produk ATK RANS Fotocopy langsung dari halaman ini.</p>
+
+      <form onsubmit="submitLogin(event)" class="mt-5 space-y-3">
+        <div>
+          <label for="login-user" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Username</label>
+          <div class="relative mt-1.5">
+            <i data-lucide="user-round" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input id="login-user" type="text" autocomplete="username" placeholder="admin" class="w-full bg-white border border-surface-container focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl pl-10 pr-3 py-3 text-sm text-slate-800">
+          </div>
+        </div>
+        <div>
+          <label for="login-pass" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Password</label>
+          <div class="relative mt-1.5">
+            <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input id="login-pass" type="password" autocomplete="current-password" placeholder="••••" class="w-full bg-white border border-surface-container focus:border-blibli focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl pl-10 pr-11 py-3 text-sm text-slate-800">
+            <button type="button" onclick="togglePass()" aria-label="Tampilkan password" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full text-slate-500 hover:bg-surface-low grid place-items-center">
+              <i id="pass-eye" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        <p id="login-error" class="hidden text-xs font-semibold text-red-600 bg-red-50 rounded-xl px-3 py-2"></p>
+        <button type="submit" class="w-full bg-blibli hover:bg-blibli-hover text-white py-3 rounded-full text-sm font-bold m3ease active:scale-[.99]">Masuk</button>
+      </form>
+
+      <div class="mt-4 rounded-2xl bg-blibli-container/60 ring-1 ring-blibli/10 px-4 py-3 text-[11px] text-blibli-on/80">
+        <p class="font-bold text-blibli-on">Kredensial demo</p>
+        <p>Username <span class="font-mono font-bold">admin</span> · Password <span class="font-mono font-bold">admin</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+<div id="dashboard-overlay" class="hidden fixed inset-0 z-[60] bg-slate-900/50 backdrop-blur-sm items-start sm:items-center justify-center p-3 sm:p-6 overflow-y-auto" onclick="if(event.target===this) closeDashboard()">
+  <div class="w-full max-w-5xl bg-surface rounded-[28px] shadow-2xl my-2 sm:my-0 overflow-hidden">
+    <!-- dash header -->
+    <div class="bg-white px-5 sm:px-7 py-4 border-b border-surface-container flex items-center justify-between gap-3 sticky top-0 z-10">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="w-11 h-11 rounded-2xl bg-blibli text-white grid place-items-center shrink-0"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></span>
+        <div class="min-w-0">
+          <h2 class="font-heading text-lg font-extrabold text-slate-900 leading-tight truncate">Dashboard Admin</h2>
+          <p class="text-[11px] text-slate-500 truncate">RANS Fotocopy · Kelola katalog produk ATK</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="logoutAdmin()" class="inline-flex items-center gap-1.5 bg-surface-low hover:bg-surface-container text-slate-700 px-3.5 py-2 rounded-full text-[11px] font-bold m3ease">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Keluar</span>
+        </button>
+        <button onclick="closeDashboard()" aria-label="Tutup dashboard" class="w-9 h-9 rounded-full bg-surface-low hover:bg-surface-container text-slate-600 grid place-items-center m3ease"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+    </div>
+
+    <div class="p-5 sm:p-7 space-y-5 max-h-[calc(100vh-120px)] overflow-y-auto">
+      <!-- stats -->
+      <div>
+        <div class="flex items-center justify-between gap-3 mb-2.5">
+          <h3 class="font-heading font-bold text-sm text-slate-900">Ringkasan Katalog</h3>
+          <span id="dash-total-pill" class="tnum text-[11px] font-bold text-blibli-on bg-blibli-container px-3 py-1 rounded-full">0 produk aktif</span>
+        </div>
+        <div id="dash-stats" class="grid grid-cols-2 lg:grid-cols-4 gap-2.5"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_1.05fr] gap-4">
+        <!-- add form -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 ring-1 ring-surface-container h-fit">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 grid place-items-center"><i data-lucide="plus" class="w-4.5 h-4.5"></i></span>
+            <div>
+              <h3 class="font-heading font-bold text-sm text-slate-900 leading-tight">Tambah Produk Baru</h3>
+              <p class="text-[11px] text-slate-500">Langsung tampil di katalog pelanggan.</p>
+            </div>
+          </div>
+
+          <form id="add-product-form" onsubmit="submitProduct(event)" class="space-y-3">
+            <div>
+              <label for="p-name" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Nama Produk <span class="text-red-500">*</span></label>
+              <input id="p-name" required type="text" placeholder="Contoh: Kertas HVS A4 80gsm" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:bg-white focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="p-category" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Kategori</label>
+                <select id="p-category" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:bg-white focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800"></select>
+              </div>
+              <div>
+                <label for="p-unit" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Satuan Jual</label>
+                <input id="p-unit" type="text" list="unit-options" placeholder="1 Rim" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:bg-white focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400">
+                <datalist id="unit-options">
+                  <option>Pcs</option><option>1 Rim</option><option>1 Lusin</option><option>1 Set</option><option>Set Paket</option><option>1 Pak</option><option>1 Box</option>
+                </datalist>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="p-price" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Harga (Rp) <span class="text-red-500">*</span></label>
+                <input id="p-price" required type="number" min="100" step="100" placeholder="52000" class="tnum mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:bg-white focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm font-bold text-slate-800 placeholder-slate-400">
+              </div>
+              <div>
+                <label for="p-badge" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Label Promo</label>
+                <input id="p-badge" type="text" list="badge-options" placeholder="Opsional" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:bg-white focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400">
+                <datalist id="badge-options"><option>Terlaris</option><option>Produk Baru</option><option>Hemat</option><option>Promo</option></datalist>
+              </div>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Ikon Produk</label>
+              <div id="icon-picker" class="grid grid-cols-6 gap-1.5 mt-1.5"></div>
+            </div>
+            <div>
+              <label for="p-desc" class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Deskripsi Singkat</label>
+              <input id="p-desc" type="text" placeholder="Contoh: 500 lembar, cocok untuk print tugas" class="mt-1.5 w-full bg-surface-low border border-transparent focus:border-blibli focus:bg-white focus:ring-4 focus:ring-blibli/15 focus:outline-none rounded-2xl px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400">
+            </div>
+            <p id="product-error" class="hidden text-xs font-semibold text-red-600 bg-red-50 rounded-xl px-3 py-2"></p>
+            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blibli hover:bg-blibli-hover text-white py-3 rounded-full text-sm font-bold m3ease active:scale-[.99]">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i> Simpan Produk
+            </button>
+          </form>
+        </div>
+
+        <!-- product list -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 ring-1 ring-surface-container">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-9 h-9 rounded-xl bg-blibli-container text-blibli grid place-items-center"><i data-lucide="list" class="w-4.5 h-4.5"></i></span>
+              <div>
+                <h3 class="font-heading font-bold text-sm text-slate-900 leading-tight">Produk Aktif</h3>
+                <p id="dash-list-count" class="text-[11px] text-slate-500">0 item di katalog</p>
+              </div>
+            </div>
+            <button onclick="resetProducts()" class="inline-flex items-center gap-1.5 bg-surface-low hover:bg-surface-container text-slate-700 px-3 py-2 rounded-full text-[11px] font-bold m3ease">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Bawaan
+            </button>
+          </div>
+          <div id="dash-product-list" class="space-y-2 max-h-[520px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400 text-center pb-1">Data produk tersimpan di perangkat ini (localStorage) dan langsung memperbarui katalog pelanggan.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TOASTS ================= -->
+<div id="toast-host" class="fixed z-[70] bottom-24 sm:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 w-[calc(100%-2rem)] max-w-sm pointer-events-none"></div>
+
+<script>
+/* =========================================================
+   RANS Fotocopy — Vanilla JS App (part 1)
+   ========================================================= */
+const WA_NUMBER = '6281234567890'; // Ganti dengan nomor WhatsApp toko (format 62…)
+const STORE = {
+  products: 'rans_fotocopy_products_v1',
+  cart: 'rans_fotocopy_cart_v2',
+  session: 'rans_fotocopy_admin_session'
+};
+
+const CATEGORIES = [
+  { id: 'kertas',       label: 'Kertas & Buku',        icon: 'notebook', tone: 'bg-[#EAF7FF] text-blibli' },
+  { id: 'pulpen',       label: 'Pulpen & Pensil',      icon: 'pen-line', tone: 'bg-[#E9F9EF] text-emerald-700' },
+  { id: 'perlengkapan', label: 'Perlengkapan',         icon: 'ruler',    tone: 'bg-[#FFF3E8] text-[#B45309]' },
+  { id: 'hadiah',       label: 'Paket Hadiah Sekolah', icon: 'gift',     tone: 'bg-[#F5EDFF] text-purple-700' }
+];
+const categoryById = (id) => CATEGORIES.find((c) => c.id === id) || CATEGORIES[0];
+
+const ICON_CHOICES = ['notebook', 'file-text', 'pen-line', 'pencil', 'ruler', 'gift', 'scissors', 'box', 'backpack', 'palette', 'sticky-note', 'calculator'];
+
+const DEFAULT_PRODUCTS = [
+  { id: 'atk-01', name: 'Kertas HVS A4 70gsm', category: 'kertas', price: 52000, unit: '1 Rim', badge: 'Terlaris', icon: 'file-text', desc: '500 lembar, hasil cetak bersih untuk tugas & fotocopy.' },
+  { id: 'atk-02', name: 'Kertas HVS F4 70gsm', category: 'kertas', price: 55000, unit: '1 Rim', badge: '', icon: 'file-text', desc: 'Ukuran folio, favorit untuk soal ujian sekolah.' },
+  { id: 'atk-03', name: 'Buku Tulis Campus 38 Lembar', category: 'kertas', price: 5500, unit: 'Pcs', badge: '', icon: 'notebook', desc: 'Kertas tebal, isi 38 lembar bergaris.' },
+  { id: 'atk-04', name: 'Buku Gambar A3', category: 'kertas', price: 8500, unit: 'Pcs', badge: 'Produk Baru', icon: 'notebook', desc: 'Cocok untuk tugas seni & lomba mewarnai.' },
+  { id: 'atk-05', name: 'Pulpen Standard AE7 Hitam', category: 'pulpen', price: 3500, unit: 'Pcs', badge: 'Terlaris', icon: 'pen-line', desc: 'Tinta lancar, tulisan tebal, tahan lama.' },
+  { id: 'atk-06', name: 'Pensil 2B Faber-Castell', category: 'pulpen', price: 4500, unit: 'Pcs', badge: '', icon: 'pencil', desc: 'Standar ujian komputer, grafit hitam pekat.' },
+  { id: 'atk-07', name: 'Pulpen Gel 0.5 Hitam', category: 'pulpen', price: 5000, unit: 'Pcs', badge: '', icon: 'pen-line', desc: 'Tinta gel cepat kering, nyaman untuk mencatat.' },
+  { id: 'atk-08', name: 'Spidol Snowman Hitam', category: 'pulpen', price: 6000, unit: 'Pcs', badge: '', icon: 'highlighter', desc: 'Untuk papan tulis & menandai catatan.' },
+  { id: 'atk-09', name: 'Penghapus Joyko', category: 'perlengkapan', price: 2500, unit: 'Pcs', badge: '', icon: 'eraser', desc: 'Lembut, tidak merusak kertas.' },
+  { id: 'atk-10', name: 'Penggaris Besi 30 cm', category: 'perlengkapan', price: 7000, unit: 'Pcs', badge: '', icon: 'ruler', desc: 'Awet, angka jelas, untuk tugas teknik.' },
+  { id: 'atk-11', name: 'Map Plastik Snelhecter', category: 'perlengkapan', price: 4000, unit: 'Pcs', badge: '', icon: 'folder', desc: 'Warna acak, kuat untuk berkas sekolahan.' },
+  { id: 'atk-12', name: 'Gunting Kertas Sedang', category: 'perlengkapan', price: 9000, unit: 'Pcs', badge: '', icon: 'scissors', desc: 'Pegangan nyaman untuk prakarya.' },
+  { id: 'atk-13', name: 'Lem Kertas Glue Stick', category: 'perlengkapan', price: 6500, unit: 'Pcs', badge: '', icon: 'box', desc: 'Bersih, tidak menggumpal, aman untuk anak.' },
+  { id: 'atk-14', name: 'Kotak Pensil Karakter', category: 'perlengkapan', price: 15000, unit: 'Pcs', badge: 'Hemat', icon: 'backpack', desc: 'Muatan besar, motif favorit pelajar.' },
+  { id: 'atk-15', name: 'Paket Hadiah Juara Lomba', category: 'hadiah', price: 25000, unit: 'Set Paket', badge: 'Terlaris', icon: 'gift', desc: 'Buku, pulpen, pensil, penggaris + tas kecil.' },
+  { id: 'atk-16', name: 'Paket Perlengkapan Ujian SD', category: 'hadiah', price: 30000, unit: 'Set Paket', badge: '', icon: 'backpack', desc: 'Pensil 2B, penghapus, rautan & papan ujian.' },
+  { id: 'atk-17', name: 'Paket Hadiah Siswa Berprestasi', category: 'hadiah', price: 45000, unit: 'Set Paket', badge: 'Produk Baru', icon: 'gift', desc: 'Buku hardcover, alat tulis premium & piagam.' },
+  { id: 'atk-18', name: 'Paket ATK Panitia Lomba (10 Siswa)', category: 'hadiah', price: 185000, unit: 'Set Paket', badge: 'Hemat', icon: 'box', desc: 'Hemat untuk panitia: 10 set hadiah siap bagi.' }
+];
+
+/* ---------------- state ---------------- */
+let products = loadProducts();
+let cart = loadCart();
+let activeCategory = 'all';
+let searchQuery = '';
+let selectedIcon = 'notebook';
+const docConfig = { type: 'bw', size: 'A4' };
+const photoConfig = { size: 'pasphoto', paper: 'glossy' };
+
+const docRates = { bw: 300, color: 1500 };
+const docLabels = { bw: 'Hitam Putih', color: 'Warna' };
+const photoSizes = {
+  pasphoto: { label: 'Pas Foto', price: 1500 },
+  '3r': { label: '3R', price: 3000 },
+  '4r': { label: '4R', price: 4000 },
+  a4: { label: 'A4', price: 10000 }
+};
+const paperLabels = { glossy: 'Glossy', doff: 'Doff' };
+
+/* ---------------- helpers ---------------- */
+const $ = (sel) => document.querySelector(sel);
+const rupiah = (n) => 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(n));
+const clampInt = (value, min = 1) => Math.max(min, parseInt(value, 10) || min);
+const escapeHtml = (str = '') => String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const refreshIcons = () => { if (window.lucide) window.lucide.createIcons(); };
+
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    console.warn('Gagal membaca storage', key, e);
+    return fallback;
+  }
+}
+function saveJSON(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); }
+  catch (e) { toast('Penyimpanan penuh — data tidak tersimpan.', 'error'); }
+}
+function loadProducts() {
+  const saved = loadJSON(STORE.products, null);
+  if (!Array.isArray(saved) || !saved.length) return structuredClone(DEFAULT_PRODUCTS);
+  return saved.filter((p) => p && p.name && Number.isFinite(Number(p.price)));
+}
+function loadCart() {
+  const saved = loadJSON(STORE.cart, null);
+  return Array.isArray(saved) ? saved.filter((i) => i && i.name && Number.isFinite(Number(i.price))) : [];
+}
+
+function toast(message, kind = 'success') {
+  const host = $('#toast-host');
+  if (!host) return;
+  const el = document.createElement('div');
+  const palette = kind === 'error'
+    ? 'bg-red-600 text-white'
+    : kind === 'info' ? 'bg-slate-900 text-white' : 'bg-white text-slate-800 ring-1 ring-surface-container';
+  const icon = kind === 'error' ? 'alert-circle' : kind === 'info' ? 'info' : 'check-circle-2';
+  el.className = `toast-enter w-full ${palette} rounded-2xl shadow-lift px-4 py-3 flex items-start gap-2.5 text-xs font-semibold pointer-events-auto`;
+  el.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 shrink-0 ${kind === 'success' ? 'text-emerald-500' : ''}"></i><span class="flex-1">${escapeHtml(message)}</span>`;
+  host.appendChild(el);
+  refreshIcons();
+  setTimeout(() => {
+    el.style.transition = 'opacity .25s, transform .25s';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(() => el.remove(), 260);
+  }, 2600);
+}
+
+/* ---------------- catalog ---------------- */
+function renderChips() {
+  const total = products.length;
+  const chips = [{ id: 'all', label: 'Semua', count: total }].concat(
+    CATEGORIES.map((c) => ({ id: c.id, label: c.label, count: products.filter((p) => p.category === c.id).length }))
+  );
+  $('#category-chips').innerHTML = chips.map((c) => {
+    const active = activeCategory === c.id;
+    return `<button onclick="setCategory('${c.id}')"
+      class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap m3ease active:scale-95 ${active
+        ? 'bg-blibli text-white shadow-sm'
+        : 'bg-white text-slate-600 ring-1 ring-surface-container hover:bg-surface-low'}">
+      <span>${escapeHtml(c.label)}</span>
+      <span class="tnum text-[10px] px-1.5 py-0.5 rounded-full ${active ? 'bg-white/20 text-white' : 'bg-surface-low text-slate-500'}">${c.count}</span>
+    </button>`;
+  }).join('');
+}
+
+function filteredProducts() {
+  const q = searchQuery.trim().toLowerCase();
+  return products.filter((p) => {
+    const matchCat = activeCategory === 'all' || p.category === activeCategory;
+    const matchQuery = !q || [p.name, p.desc, p.unit, p.badge, categoryById(p.category).label]
+      .filter(Boolean).join(' ').toLowerCase().includes(q);
+    return matchCat && matchQuery;
+  });
+}
+
+function actionHTML(product) {
+  const item = cart.find((i) => i.key === 'p:' + product.id);
+  if (!item) {
+    return `<button onclick="addProduct('${product.id}')" class="w-full inline-flex items-center justify-center gap-1.5 bg-blibli-container hover:bg-[#C2E8FF] text-blibli-on py-2.5 rounded-full text-xs font-bold m3ease active:scale-95">
+      <i data-lucide="plus" class="w-3.5 h-3.5 text-blibli"></i> Keranjang
+    </button>`;
+  }
+  return `<div class="flex items-center justify-between bg-blibli-container rounded-full p-1">
+    <button onclick="decrease('p:${product.id}')" aria-label="Kurangi" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white text-blibli-on grid place-items-center m3ease active:scale-90">
+      <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+    </button>
+    <span class="tnum font-heading font-extrabold text-sm text-blibli-on">${item.qty}</span>
+    <button onclick="increase('p:${product.id}')" aria-label="Tambah" class="w-8 h-8 rounded-full bg-blibli text-white hover:bg-blibli-hover grid place-items-center m3ease active:scale-90">
+      <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+    </button>
+  </div>`;
+}
+
+function renderCatalog() {
+  const list = filteredProducts();
+  const grid = $('#product-grid');
+  grid.innerHTML = list.map((p, idx) => {
+    const cat = categoryById(p.category);
+    return `<article class="card-enter bg-white rounded-[24px] p-2.5 sm:p-3 ring-1 ring-surface-container/80 hover:ring-blibli/30 hover:shadow-m3 m3ease flex flex-col" style="animation-delay:${Math.min(idx * 22, 220)}ms">
+      <div class="relative rounded-[18px] aspect-[4/3] grid place-items-center overflow-hidden tone ${cat.tone}">
+        <i data-lucide="${ICON_CHOICES.includes(p.icon) ? p.icon : 'box'}" class="w-9 h-9 sm:w-10 sm:h-10"></i>
+        ${p.badge ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-promo-orange text-white text-[9px] font-extrabold uppercase tracking-wide">${escapeHtml(p.badge)}</span>` : ''}
+        <span class="absolute bottom-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/80 text-slate-600">${escapeHtml(p.unit)}</span>
+      </div>
+      <div class="px-1 pt-2.5 flex-1 flex flex-col">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">${escapeHtml(cat.label)}</span>
+        <h3 class="font-heading font-bold text-[13px] sm:text-sm text-slate-900 leading-snug mt-0.5 line-clamp-2">${escapeHtml(p.name)}</h3>
+        <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 hidden sm:block">${escapeHtml(p.desc || '')}</p>
+        <div class="mt-2 flex items-end justify-between gap-2">
+          <span class="font-heading tnum font-extrabold text-sm sm:text-base text-slate-900">${rupiah(p.price)}</span>
+          <span class="text-[10px] text-slate-400 pb-0.5">/${escapeHtml(p.unit)}</span>
+        </div>
+        <div class="mt-2" data-action="p:${p.id}">${actionHTML(p)}</div>
+      </div>
+    </article>`;
+  }).join('');
+
+  $('#empty-state').classList.toggle('hidden', list.length > 0);
+  $('#catalog-count').textContent = `${list.length} produk`;
+  refreshIcons();
+}
+
+function refreshCardActions() {
+  document.querySelectorAll('[data-action]').forEach((el) => {
+    const product = products.find((p) => 'p:' + p.id === el.dataset.action);
+    if (product) el.innerHTML = actionHTML(product);
+  });
+  refreshIcons();
+}
+
+function setCategory(id) {
+  activeCategory = id;
+  renderChips();
+  renderCatalog();
+  const target = document.getElementById('katalog');
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function quickCategory(id) { setCategory(id); }
+function resetFilters() {
+  activeCategory = 'all';
+  searchQuery = '';
+  $('#search-input').value = '';
+  $('#clear-search').classList.add('hidden');
+  renderChips();
+  renderCatalog();
+}
+function clearSearch() {
+  searchQuery = '';
+  $('#search-input').value = '';
+  $('#clear-search').classList.add('hidden');
+  renderCatalog();
+  $('#search-input').focus();
+}
+
+/* ---------------- cart ---------------- */
+function saveCart() { saveJSON(STORE.cart, cart); }
+
+function addToCart(item) {
+  const existing = cart.find((i) => i.key === item.key);
+  if (existing) existing.qty += item.qty;
+  else cart.push(item);
+  saveCart();
+  renderCart();
+  if (item.type === 'product') refreshCardActions();
+  toast(`${item.name} masuk keranjang`);
+}
+
+function addProduct(id) {
+  const p = products.find((x) => x.id === id);
+  if (!p) return;
+  addToCart({ key: 'p:' + p.id, type: 'product', name: p.name, detail: p.unit, price: Number(p.price), qty: 1, icon: p.icon || 'box' });
+}
+
+function increase(key) {
+  const item = cart.find((i) => i.key === key);
+  if (!item) return;
+  item.qty += 1;
+  saveCart(); renderCart(); refreshCardActions();
+}
+function decrease(key) {
+  const item = cart.find((i) => i.key === key);
+  if (!item) return;
+  item.qty -= 1;
+  if (item.qty <= 0) cart = cart.filter((i) => i.key !== key);
+  saveCart(); renderCart(); refreshCardActions();
+}
+function removeItem(key) {
+  cart = cart.filter((i) => i.key !== key);
+  saveCart(); renderCart(); refreshCardActions();
+  toast('Item dihapus dari keranjang', 'info');
+}
+function cartTotal() { return cart.reduce((sum, i) => sum + Number(i.price) * i.qty, 0); }
+function cartCount() { return cart.reduce((sum, i) => sum + i.qty, 0); }
+
+function renderCart() {
+  const count = cartCount();
+  const total = cartTotal();
+  const empty = cart.length === 0;
+
+  $('#nav-cart-badge').textContent = count;
+  $('#cart-subtitle').textContent = empty ? 'Belum ada item' : `${count} item · ${cart.length} baris pesanan`;
+  $('#cart-total').textContent = rupiah(total);
+  $('#cart-empty').classList.toggle('hidden', !empty);
+  $('#cart-form-wrap').classList.toggle('hidden', empty);
+  $('#checkout-btn').disabled = empty;
+  $('#checkout-btn').classList.toggle('opacity-40', empty);
+  $('#checkout-btn').classList.toggle('pointer-events-none', empty);
+
+  $('#float-count').textContent = count;
+  $('#float-total').textContent = rupiah(total);
+  $('#floating-cart').classList.toggle('hidden', empty);
+
+  $('#cart-items').innerHTML = cart.map((item) => `
+    <div class="bg-white rounded-2xl ring-1 ring-surface-container p-3 flex gap-3">
+      <span class="w-11 h-11 rounded-xl bg-blibli-container/70 text-blibli grid place-items-center shrink-0">
+        <i data-lucide="${ICON_CHOICES.includes(item.icon) ? item.icon : (item.type === 'doc' ? 'file-text' : item.type === 'photo' ? 'image' : 'box')}" class="w-5 h-5"></i>
+      </span>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <p class="font-heading font-bold text-[13px] text-slate-900 leading-snug">${escapeHtml(item.name)}</p>
+            <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">${escapeHtml(item.detail)}</p>
+          </div>
+          <button onclick="removeItem('${item.key}')" aria-label="Hapus item" class="w-7 h-7 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 grid place-items-center shrink-0">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+        <div class="flex items-center justify-between mt-2">
+          <span class="tnum font-heading font-extrabold text-sm text-blibli">${rupiah(item.price * item.qty)}</span>
+          <div class="flex items-center gap-1 bg-surface-low rounded-full p-0.5">
+            <button onclick="decrease('${item.key}')" aria-label="Kurangi" class="w-7 h-7 rounded-full bg-white text-slate-600 hover:text-blibli grid place-items-center m3ease">
+              <i data-lucide="minus" class="w-3 h-3"></i>
+            </button>
+            <span class="tnum text-xs font-bold w-6 text-center text-slate-800">${item.qty}</span>
+            <button onclick="increase('${item.key}')" aria-label="Tambah" class="w-7 h-7 rounded-full bg-blibli text-white hover:bg-blibli-hover grid place-items-center m3ease">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+  refreshIcons();
+}
+
+function openCart() {
+  $('#cart-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  $('#cart-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ---------------- doc calculator ---------------- */
+function docEstimate() {
+  const pages = clampInt($('#doc-pages').value);
+  const copies = clampInt($('#doc-copies').value);
+  const binding = Number($('#doc-binding').value) || 0;
+  const bindingLabel = ($('#doc-binding').selectedOptions[0]?.textContent.split('·')[0] || '').trim();
+  const rate = docRates[docConfig.type];
+  const total = (pages * rate + binding) * copies;
+  const detail = `${pages} hlm × ${copies} rangkap · ${docConfig.size} · ${docLabels[docConfig.type]}${binding ? ' · ' + bindingLabel : ''}`;
+  $('#doc-total').textContent = rupiah(total);
+  $('#doc-detail').textContent = detail;
+  return { pages, copies, binding, bindingLabel, total, detail, rate };
+}
+
+function addDocToCart() {
+  const est = docEstimate();
+  addToCart({
+    key: `doc:${docConfig.type}:${docConfig.size}:${est.binding}:${est.pages}:${est.copies}`,
+    type: 'doc',
+    name: `Fotocopy ${docLabels[docConfig.type]} ${docConfig.size}`,
+    detail: est.detail,
+    price: est.total,
+    qty: 1,
+    icon: 'file-text'
+  });
+}
+
+/* ---------------- photo calculator ---------------- */
+function photoEstimate() {
+  const qty = clampInt($('#photo-qty').value);
+  const size = photoSizes[photoConfig.size];
+  const total = size.price * qty;
+  const detail = `${size.label} · ${paperLabels[photoConfig.paper]} · ${qty} lembar`;
+  $('#photo-total').textContent = rupiah(total);
+  $('#photo-detail').textContent = detail;
+  return { qty, size, total, detail };
+}
+
+function addPhotoToCart() {
+  const est = photoEstimate();
+  addToCart({
+    key: `photo:${photoConfig.size}:${photoConfig.paper}:${est.qty}`,
+    type: 'photo',
+    name: `Cetak Foto ${est.size.label} (${paperLabels[photoConfig.paper]})`,
+    detail: est.detail,
+    price: est.total,
+    qty: 1,
+    icon: 'image'
+  });
+}
+
+/* ---------------- segmented buttons ---------------- */
+function bindSegment(name, onChange) {
+  document.querySelectorAll(`[data-seg="${name}"] .seg-btn`).forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll(`[data-seg="${name}"] .seg-btn`).forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      onChange(btn.dataset.value);
+    });
+  });
+}
+
+/* ---------------- WhatsApp checkout ---------------- */
+function openWhatsApp(text) {
+  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank', 'noopener');
+}
+function chatStore() {
+  openWhatsApp('Halo RANS Fotocopy!\nSaya ingin bertanya tentang produk ATK / jasa fotocopy & cetak foto.');
+}
+function checkoutWhatsApp() {
+  if (!cart.length) { toast('Keranjang masih kosong.', 'error'); return; }
+  const name = $('#buyer-name').value.trim();
+  if (!name) {
+    toast('Isi nama pemesan / sekolah dulu ya.', 'error');
+    $('#buyer-name').focus();
+    return;
+  }
+  const category = $('#buyer-category').value;
+  const method = $('#buyer-method').value;
+  const note = $('#buyer-note').value.trim();
+  const now = new Date().toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' });
+
+  const lines = cart.map((item, i) => `${i + 1}. ${item.name}\n    ${item.detail}\n    ${item.qty} x ${rupiah(item.price)} = ${rupiah(item.price * item.qty)}`);
+
+  const message = [
+    '*PESANAN RANS FOTOCOPY*',
+    `_${now}_`,
+    '',
+    '*Data Pemesan*',
+    `Nama / Sekolah : ${name}`,
+    `Kategori       : ${category}`,
+    `Pengambilan    : ${method}`,
+    `Catatan        : ${note || '-'}`,
+    '',
+    '*Rincian Pesanan*',
+    ...lines,
+    '',
+    `*TOTAL ESTIMASI : ${rupiah(cartTotal())}*`,
+    '',
+    'Mohon konfirmasi ketersediaan stok & total akhirnya. Terima kasih!'
+  ].join('\n');
+
+  openWhatsApp(message);
+  toast('Membuka WhatsApp dengan rincian pesanan…', 'info');
+}
+
+/* ---------------- admin auth ---------------- */
+function isLoggedIn() { return sessionStorage.getItem(STORE.session) === 'active'; }
+
+function updateAdminLabels() {
+  const on = isLoggedIn();
+  $('#admin-label').textContent = on ? 'Dashboard' : 'Admin';
+  $('#footer-admin-label').textContent = on ? '— dashboard aktif' : '— login pengelola';
+}
+
+function openAdmin() {
+  if (isLoggedIn()) { openDashboard(); return; }
+  $('#admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  $('#login-error').classList.add('hidden');
+  $('#login-pass').value = '';
+  setTimeout(() => $('#login-user').focus(), 120);
+}
+function closeAdmin() {
+  $('#admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function togglePass() {
+  const input = $('#login-pass');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+function submitLogin(e) {
+  e.preventDefault();
+  const user = $('#login-user').value.trim();
+  const pass = $('#login-pass').value;
+  if (user === 'admin' && pass === 'admin') {
+    sessionStorage.setItem(STORE.session, 'active');
+    updateAdminLabels();
+    closeAdmin();
+    openDashboard();
+    toast('Berhasil masuk sebagai admin');
+  } else {
+    const err = $('#login-error');
+    err.textContent = 'Username atau password salah. Gunakan admin / admin.';
+    err.classList.remove('hidden');
+    $('#login-pass').value = '';
+    $('#login-pass').focus();
+  }
+}
+function logoutAdmin() {
+  sessionStorage.removeItem(STORE.session);
+  updateAdminLabels();
+  closeDashboard();
+  toast('Anda sudah keluar dari dashboard.', 'info');
+}
+function openDashboard() {
+  if (!isLoggedIn()) { openAdmin(); return; }
+  closeAdmin();
+  const overlay = $('#dashboard-overlay');
+  overlay.classList.remove('hidden');
+  overlay.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+  renderDashboard();
+}
+function closeDashboard() {
+  const overlay = $('#dashboard-overlay');
+  overlay.classList.add('hidden');
+  overlay.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+/* ---------------- admin dashboard ---------------- */
+function renderDashboard() {
+  const total = products.length;
+  $('#dash-total-pill').textContent = `${total} produk aktif`;
+  $('#dash-list-count').textContent = `${total} item di katalog`;
+
+  $('#dash-stats').innerHTML = CATEGORIES.map((c) => {
+    const items = products.filter((p) => p.category === c.id);
+    const value = items.reduce((s, p) => s + Number(p.price), 0);
+    return `<div class="bg-white rounded-2xl p-3 ring-1 ring-surface-container">
+      <div class="flex items-center justify-between">
+        <span class="w-8 h-8 rounded-xl grid place-items-center ${c.tone}"><i data-lucide="${c.icon}" class="w-4 h-4"></i></span>
+        <span class="font-heading tnum text-xl font-extrabold text-slate-900">${items.length}</span>
+      </div>
+      <p class="text-[11px] font-bold text-slate-700 mt-2 leading-tight">${escapeHtml(c.label)}</p>
+      <p class="text-[10px] text-slate-400 tnum mt-0.5">${rupiah(value)} total harga</p>
+    </div>`;
+  }).join('');
+
+  $('#dash-product-list').innerHTML = products.map((p) => {
+    const cat = categoryById(p.category);
+    return `<div class="flex items-center gap-2.5 bg-surface-low/70 rounded-2xl p-2.5">
+      <span class="w-9 h-9 rounded-xl grid place-items-center shrink-0 ${cat.tone}"><i data-lucide="${ICON_CHOICES.includes(p.icon) ? p.icon : 'box'}" class="w-4 h-4"></i></span>
+      <div class="flex-1 min-w-0">
+        <p class="font-heading font-bold text-[12px] text-slate-900 truncate">${escapeHtml(p.name)}</p>
+        <p class="text-[10px] text-slate-500 truncate">${escapeHtml(cat.label)} · ${escapeHtml(p.unit)}${p.badge ? ' · ' + escapeHtml(p.badge) : ''}</p>
+      </div>
+      <span class="tnum text-[11px] font-extrabold text-slate-800 shrink-0">${rupiah(p.price)}</span>
+      <button onclick="deleteProduct('${p.id}')" aria-label="Hapus ${escapeHtml(p.name)}"
+        class="w-8 h-8 rounded-full bg-white text-slate-400 hover:text-red-600 hover:bg-red-50 grid place-items-center shrink-0 m3ease">
+        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>`;
+  }).join('') || `<p class="text-xs text-slate-500 text-center py-8">Belum ada produk. Tambahkan produk baru atau reset katalog bawaan.</p>`;
+
+  refreshIcons();
+}
+
+function renderCategorySelect() {
+  $('#p-category').innerHTML = CATEGORIES.map((c) => `<option value="${c.id}">${escapeHtml(c.label)}</option>`).join('');
+}
+function renderIconPicker() {
+  $('#icon-picker').innerHTML = ICON_CHOICES.map((icon) => `
+    <button type="button" data-icon="${icon}" onclick="pickIcon('${icon}')" aria-label="Ikon ${icon}"
+      class="icon-opt aspect-square rounded-xl grid place-items-center m3ease ${selectedIcon === icon ? 'bg-blibli text-white' : 'bg-surface-low text-slate-500 hover:bg-surface-container'}">
+      <i data-lucide="${icon}" class="w-4 h-4"></i>
+    </button>`).join('');
+  refreshIcons();
+}
+function pickIcon(icon) {
+  selectedIcon = icon;
+  document.querySelectorAll('.icon-opt').forEach((b) => {
+    const active = b.dataset.icon === icon;
+    b.className = `icon-opt aspect-square rounded-xl grid place-items-center m3ease ${active ? 'bg-blibli text-white' : 'bg-surface-low text-slate-500 hover:bg-surface-container'}`;
+  });
+}
+
+function submitProduct(e) {
+  e.preventDefault();
+  const name = $('#p-name').value.trim();
+  const price = Number($('#p-price').value);
+  const err = $('#product-error');
+  if (!name || name.length < 3) {
+    err.textContent = 'Nama produk minimal 3 karakter.';
+    err.classList.remove('hidden');
+    return;
+  }
+  if (!Number.isFinite(price) || price < 100) {
+    err.textContent = 'Harga minimal Rp 100.';
+    err.classList.remove('hidden');
+    return;
+  }
+  err.classList.add('hidden');
+
+  const product = {
+    id: 'atk-' + Date.now().toString(36),
+    name,
+    category: $('#p-category').value,
+    price: Math.round(price),
+    unit: $('#p-unit').value.trim() || 'Pcs',
+    badge: $('#p-badge').value.trim(),
+    icon: selectedIcon,
+    desc: $('#p-desc').value.trim()
+  };
+  products.unshift(product);
+  saveJSON(STORE.products, products);
+
+  renderCatalog();
+  renderChips();
+  renderDashboard();
+  $('#add-product-form').reset();
+  selectedIcon = 'notebook';
+  renderIconPicker();
+  toast(`"${product.name}" ditambahkan ke katalog`);
+}
+
+function deleteProduct(id) {
+  const p = products.find((x) => x.id === id);
+  if (!p) return;
+  if (!confirm(`Hapus "${p.name}" dari katalog?`)) return;
+  products = products.filter((x) => x.id !== id);
+  saveJSON(STORE.products, products);
+  renderCatalog();
+  renderChips();
+  renderDashboard();
+  toast(`"${p.name}" dihapus dari katalog`, 'info');
+}
+
+function resetProducts() {
+  if (!confirm('Kembalikan katalog ke daftar produk bawaan? Produk tambahan akan hilang.')) return;
+  products = structuredClone(DEFAULT_PRODUCTS);
+  saveJSON(STORE.products, products);
+  renderCatalog();
+  renderChips();
+  renderDashboard();
+  toast('Katalog dikembalikan ke produk bawaan');
+}
+
+/* ---------------- init ---------------- */
+function init() {
+  renderChips();
+  renderCatalog();
+  renderCart();
+  renderCategorySelect();
+  renderIconPicker();
+  updateAdminLabels();
+  docEstimate();
+  photoEstimate();
+
+  $('#search-input').addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    $('#clear-search').classList.toggle('hidden', !searchQuery);
+    renderCatalog();
+  });
+
+  ['#doc-pages', '#doc-copies', '#doc-binding'].forEach((sel) => {
+    $(sel).addEventListener('input', docEstimate);
+    $(sel).addEventListener('change', docEstimate);
+  });
+  $('#photo-qty').addEventListener('input', photoEstimate);
+
+  bindSegment('docType', (v) => { docConfig.type = v; docEstimate(); });
+  bindSegment('docSize', (v) => { docConfig.size = v; docEstimate(); });
+  bindSegment('photoSize', (v) => { photoConfig.size = v; photoEstimate(); });
+  bindSegment('photoPaper', (v) => { photoConfig.paper = v; photoEstimate(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if ($('#dashboard-overlay').classList.contains('flex')) { closeDashboard(); return; }
+    if ($('#admin-overlay').classList.contains('open')) { closeAdmin(); return; }
+    if ($('#cart-overlay').classList.contains('open')) closeCart();
+  });
+
+  // Sinkronisasi antar-tab
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORE.cart) { cart = loadCart(); renderCart(); refreshCardActions(); }
+    if (e.key === STORE.products) { products = loadProducts(); renderCatalog(); renderChips(); renderDashboard(); }
+  });
+
+  refreshIcons();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+
